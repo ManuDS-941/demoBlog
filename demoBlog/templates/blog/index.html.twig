@@ -8,71 +8,36 @@
 
 
 <div class="row">
+
+    {# La boucle FOR permet de passer en revue les articles selectionnés en BDD et envoyés par le controller #}
+    {#  data est une variable de éception qui receptionne un article par tour de boucle #}
+    {#  Nous pouvons nommer cette variable comme nous le souhaitons #}
+    {#  articles est une variable TWIG qui provient du controller #}
+    {% for data in articles %}
+
     <div class="col-md-4">
         <div class="card mb-4 shadow-sm">
-            <img src="https://picsum.photos/200/200" alt="">
+            {#  On pioche dans data avec le point '.' afin d'afficher l'image, le titre, le contenu etc.. #}
+            <img src="{{ data.image }}" alt="">
             <div class="card-body">
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
+                <h5 class="text-center">{{ data.title }}</h5>
+                <p class="card-text">{{ data.content|raw|slice(3,10) }}</p>
+                {#  raw est un filtre TWIG permettant d'échapper les balise HTML #}
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a href=" {{ path('blog_show')}} " class="btn btn-dark">Voir plus</a>
+                        <a href=" {{ path('blog_show', {'id': data.id } ) }} " class="btn btn-dark">Voir plus</a>
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    <small class="text-muted">{{ data.createdAt|date('d/m/Y') }} à {{ data.createdAt|date('H:i:s') }}</small>
+                    {# data.createdAt renvoi un objet datetime que nous ne pouvons pas convertir en chaine de caractère #}
+                    {#  date() est un filtre TWIG permettant d'afficher la date et l'heure #}
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-            <img src="https://picsum.photos/200/200" alt="">
-            <div class="card-body">
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <a href=" {{ path('blog_show')}} " class="btn btn-dark">Voir plus</a>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endfor %}
 
-    <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-            <img src="https://picsum.photos/200/200" alt="">
-            <div class="card-body">
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <a href=" {{ path('blog_show')}} " class="btn btn-dark">Voir plus</a>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-            <img src="https://picsum.photos/200/200" alt="">
-            <div class="card-body">
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <a href=" {{ path('blog_show')}} " class="btn btn-dark">Voir plus</a>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 {% endblock %}
