@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mon Blog Symfony | Identifiez-vous {% endblock %}
+
+{% block body %}
+
+    <h1 class="display-4 text-center my-4">Identifiez-vous</h1>    
+    
+
+    {# Si l'internaute a saisi les mauvais identifiants, alors on entre dans la condition IF #}
+    {# error : variable TWIG qui provient du controller SecurityController et qui contient un message d'erreur en cas de mauvaise connexion #}
+    {% if error %}
+
+    <p class="bg-danger text-white text-center p-3 col-md-4 mx-auto rounded">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+        {# trans(error.messageData, 'security') : permet de pointer sur le fichier 'tranlsations/security.en.php' qui contient la personnalisation des messages utilisateurs par défault de Symfony #}
+    </p>
+        
+    {% endif %}
+
+
+    {# Les attributs 'name' pour un formulaire de connexion doivent etre imperativement '_username' et '_password' puisque symfony va faire le travail pour nous !! #}
+    <form action="{{ path('security_login') }}" method="post" class="col-md-5 mx-auto">
+        <div class="from-group">
+            <label for="">Email</label>
+            <input type="text" class="form-control" id="_username" name="_username" value=" {{ last_username }} ">
+            {# on stock dans l'attribut 'value' le dernier mail saisi par l'internaute encas d'erreur d'authentification #}
+            {# last_username : variable qui provient du controller SecurityController #}
+        </div>
+        <div class="from-group mt-2">
+            <label for="">Mot de Passe</label>
+            <input type="password" class="form-control" id="_password" name="_password">
+        </div>
+        <input type="submit" class="btn btn-dark mt-3" value="Connexion">
+    </form>
+
+
+{% endblock %}
