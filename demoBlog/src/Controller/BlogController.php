@@ -136,13 +136,24 @@ class BlogController extends AbstractController
 
         $comment = new Comment;
 
-        dump($request);
+        dump($article);
+
+        // $user = $this->getUser()->username();
+        // dump($user);
 
         $formComment = $this->createForm(CommentType::class, $comment);
 
         $formComment->handleRequest($request);
 
         if ($formComment->isSubmitted() && $formComment->isValid()) {
+
+            // getUser() : méthode permettant de récupérer les données de l'utilisateur en session
+            // On stock le nom d'utilisteur dans la variable $username
+            $username = $this->getUser()->getUsername();
+            dump($username);
+            
+            // On renseigne le setter de l'auteur afin qu'il soit automatiquement compris dans le commentaire
+            $comment->setAuthor($username);
             $comment->setCreatedAt(new \DateTime); // on insère une date de création du commentaire
             $comment->setArticle($article); // on relie le commentaire à l'article (clé étrangère)
 
@@ -164,4 +175,12 @@ class BlogController extends AbstractController
             'formComment' => $formComment->createView()
         ]);
     }
+
+    /*
+        Symfony comprend qu'il ya un article a passé et que dans la route il y a un ID, il va donc cherche le bon article. 
+        Tout ça grace au ParamConverter de Symfony, en gros il me voit que l'on a besoin d'un article et aussi d'un ID, 
+        Nous avons donc des fonctions beaucoup plus courte !!
+    */
+
+    
 }
