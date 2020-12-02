@@ -5,6 +5,9 @@
 
 {% block body %}
 
+<div class="container">
+
+	{#  "article" est une variable TWIG #}
 	<h1 class="display-4 text-center my-4">{{ article.title }}</h1>
 
 	<div class="col-md-12">
@@ -13,7 +16,7 @@
 			<div class="card-body">
 				<p class="card-text">{{ article.content|raw }}</p>
 			</div>
-			<small class="text-muted ml-2 mb-2">Publié le
+			<small class="text-muted ml-3 mb-2">Publié le
 				{{ article.createdAt|date('d/m/Y')}}
 				à
 				{{ article.createdAt|date('H:i:s') }}
@@ -21,14 +24,22 @@
 				<strong>{{ article.category.title }}</strong>
 			</small>
 
+			{# Si l'utilisateur possède un compte admin (ROLE_ADMIN), on lui donne la possibilité de modifié l'article #}
+			{% if is_granted('ROLE_ADMIN') %}
+				
 			<small>
 				<a href="{{ path('blog_edit', {'id': article.id }) }}" class="btn btn-dark ml-2 mb-2">EDIT</a>
 			</small>
+
+			{% endif %}
 		</div>
 	</div>
 
-	<h4 class="my-4">Donner son avis...</h4>
+	{# Si l'internaute est bien connecté, donc possède un role ROLE_USER en BDD, on entre dfans la condition IF et il a la possiblité de poster un commentaire #}
+	{% if is_granted('ROLE_USER') %}
 
+	{# On passe en revue les messages utilisateurs stockés en session dans la variable d'environnement 'app' #}
+	{# flashes('success') permet d'avoir accès à tout les message d'utilisateurs, 'success' est un identifiant de message définit dans le controler #}
 	{% for message in app.flashes('success') %}
 
 		<div class="col-md-5 bg-success p-3 rounded mx-auto text-center text-white">
@@ -37,10 +48,12 @@
 
 	{% endfor %}
 
+	<h4 class="my-4">Donner son avis...</h4>
+		
 	{# Affichage du formulaire d'ajout de commentaire envoyé par le controller BlogController #}
 	{{ form_start(formComment) }}
 
-	{{ form_row(formComment.author, {'label': "Nom d'utilisateur"})}}
+	{# {{ form_row(formComment.author, {'label': "Nom d'utilisateur"} ) }} #}
 
 	{{ form_row(formComment.content, {'label': "Saisir votre commentaire"})}}
 
@@ -48,6 +61,9 @@
 
 
 	{{ form_end(formComment) }}
+
+	{% endif %}
+
 
 
 	<h4 class="my-4">Vos réactions...</h4>
@@ -71,4 +87,8 @@
 
 		{% endfor %}
 	</div>
+
+
+</div>
+
 {% endblock %}
