@@ -4,7 +4,20 @@
 
 {% block body %}
 
-    <h1 class="display-4 text-center my-4">BACK OFFICE | Création d'un nouvel article</h1>
+<h1 class="display-4 text-center my-4">
+    BACK OFFICE | 
+    
+    {% if editMode %}  <!-- Si on a editMode (donc un ID dans l'URL) -->
+    
+        Modification de la article
+
+    {% else %}
+
+        Création d'une article
+
+    {% endif %}
+    
+    <small><a href="{{ path('admin_articles') }} " class="btn btn-dark">Retour</a></small></h1>
 
     {{ form_start(formArticle, {'attr': {'class': 'col-md-5 mx-auto'}}) }} 
 
@@ -16,7 +29,18 @@
 
         {{ form_row(formArticle.image) }}
 
-    <button type="submit" class="btn btn-dark">Enregistrer l'Article</button>
+    <button type="submit" class="btn btn-dark">
+            
+            {% if editMode %}  <!-- Si on a editMode (donc un ID dans l'URL) -->
+            
+                Modifier l'Article
+    
+            {% else %}
+    
+                Enregistrer l'Article
+    
+            {% endif %}
+            </button>
 
     {{ form_end(formArticle) }} 
 

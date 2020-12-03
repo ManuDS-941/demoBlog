@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+
+{% block title %}BACK OFFICE | Gestion des Catégories{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        
+        <h1 class="display-4 text-center my-4">BACK OFFICE | Gestion des Categories <small><a href="{{ path('admin_new_category') }} " class="btn btn-dark">Nouvel Categorie</a></small></h1>
+        
+        {% for label, messages in app.flashes(['danger', 'success']) %} <!-- le label permet de choisir entre success et danger en fonction du cas, et messages va delivrer le message en fonction de la boucle par rapport au cas -->
+
+            {% for message in messages %}
+                
+                <div class="bg-{{ label }} text-white text-center col-md-5 mx-auto rounded p-3 mb-3"> {{ message }} </div>
+                
+            {% endfor %}
+            
+        {% endfor %}
+
+
+        <table class="table table-bordered table-striped table-dark text-center">
+            
+            <tr>
+                {% for data in colonnes %}
+                
+                <th>{{ data|upper }}</th>
+                
+                {% endfor %}
+                
+                <th>NB ARTICLE</th>
+                <th>EDITER</th>
+                <th>SUPPRIMER</th>
+            </tr>
+
+            {% for data in categorie %}
+
+            <tr class="align-middle">
+                <td class="align-middle">{{ data.id }}</td>
+                <td class="align-middle">{{ data.title }}</td>
+                <td class="align-middle">{{ data.description }}</td>
+
+                <!-- data.article|length: permet d'afficher le nombre d'articles par catégorie -->
+                <td class="align-middle">{{ data.articles|length }}</td>
+
+                <td class="align-middle" ><a href=" {{ path('admin_edit_category', {'id': data.id}) }} " class="btn btn-success text-white"><i class="fas fa-edit fa-1x"></i></a></td>
+                <td class="align-middle"><a href="{{ path('admin_delete_category', {'id': data.id}) }} " class="btn btn-danger text-white" onclick="return(confirm('Voulez vous vraiment supprimer cette category ?'))"><i class="fas fa-trash fa-1x"></i></a></td>
+            </tr>
+                
+            {% endfor %}
+
+            
+        </table>
+        
+    </div>
+    
+{% endblock %}
