@@ -31,7 +31,9 @@ class SecurityController extends AbstractController
 
         dump($request);
 
-        $formRegistration = $this->createForm(RegistrationType::class, $user);
+        $formRegistration = $this->createForm(RegistrationType::class, $user, [
+            'validation_groups' => ['registration'] // validation_groups : methode prédéfini pour que les contraintes seront prises en compte seuleement pour l'inscription voir registrationType.php
+        ]);
 
         $formRegistration->handleRequest($request);
 

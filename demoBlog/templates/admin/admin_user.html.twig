@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block title %}BACK OFFICE | Gestion des Membres {% endblock %}
+
+{% block body %}
+
+    <h1 class="display-4 text-center my-4">BACK OFFICE | Gestion des Membres</h1>
+
+    {% for message in app.flashes('success') %}
+        
+    <div class="bg-success text-white text-center col-md-4 mx-auto rounded p-3 mb-3">
+        {{ message }}
+    </div>
+    
+    {% endfor %}
+
+    <table class="table table-bordered table-striped table-dark text-center">
+            
+        <tr>
+            {% for data in colonnes %}
+                
+                {% if data != 'password' %}
+                
+                    <th> {{ data }} </th>
+
+                {% endif %}
+
+            {% endfor %}
+
+                <th>EDIT</th>
+                <th>SUPPR</th>
+
+        </tr>
+
+        <tr>
+            {% for data in users %}
+                
+                <td> {{ data.id }} </td>
+                <td> {{ data.email }} </td>
+                <td> {{ data.username }} </td>
+                <td> {{ data.roles[0] }} </td>
+                
+                
+                <td class="align-middle" ><a href=" {{ path('admin_edit_user', {'id': data.id}) }} " class="btn btn-success text-white"><i class="fas fa-edit fa-1x"></i></a></td>
+                <td class="align-middle"><a href=" {{ path('admin_delete_user', {'id': data.id}) }} " class="btn btn-danger text-white" onclick="return(confirm('Voulez vous vraiment supprimer cette category ?'))"><i class="fas fa-trash fa-1x"></i></a></td>
+                
+            {% endfor %}
+
+        </tr>
+        
+    </table>
+    
+{% endblock %}

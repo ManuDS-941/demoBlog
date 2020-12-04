@@ -6,14 +6,10 @@
 
     <h1 class="display-4 text-center my-4">BACK OFFICE | Gestion des articles <small><a href=" {{ path('admin_new_article') }} " class="btn btn-dark btn.sm">Nouveau Article</a></small></h1>
 
-
-    {% for message in app.flashes('success') %}
-        
     <div class="bg-success text-white text-center col-md-4 mx-auto rounded p-3 mb-3">
         {{ message }}
     </div>
-    
-    {% endfor %}
+
 
     <table class="table table-striped table bordered table-dark table-hover text-center">
 
