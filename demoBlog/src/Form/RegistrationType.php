@@ -23,6 +23,7 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => ['registration'] // ce formulaire recupère les contraintes que pour ce groupe la voir security controller
         ]);
     }
 }
